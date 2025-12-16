@@ -8,7 +8,8 @@
         "files.associations": {
             "*.c": "c",
             "stm32f103xb.h": "c",
-            "stdint.h": "c"
+            "stdint.h": "c",
+            "main.h": "c"
         }
     }
 }
