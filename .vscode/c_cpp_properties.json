@@ -119,6 +119,46 @@
             "cStandard": "c99",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-gcc-x64"
+        },
+        {
+            "name": "4-1Data transmission for switching lights on and off",
+            "includePath": [
+                "C:/Keil_v5/ARM/ARMCC/include",
+                "${workspaceFolder}/4/4-1/Core/Inc",
+                "${workspaceFolder}/4/4-1/Drivers/STM32F1xx_HAL_Driver/Inc",
+                "${workspaceFolder}/4/4-1/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy",
+                "${workspaceFolder}/4/4-1/Drivers/CMSIS/Device/ST/STM32F1xx/Include",
+                "${workspaceFolder}/4/4-1/Drivers/CMSIS/Include"
+            ],
+            "defines": [
+                "USE_HAL_DRIVER",
+                "STM32F103xE",
+                "__CC_ARM",
+                "__ARMCC_VERSION=5060034"
+            ],
+            "cStandard": "c99",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-gcc-x64"
+        },
+        {
+            "name": "4-2Data reception for switching lights",
+            "includePath": [
+                "C:/Keil_v5/ARM/ARMCC/include",
+                "${workspaceFolder}/4-Serial port controlled light switch design/4-2Data reception for switching lights/Core/Inc",
+                "${workspaceFolder}/4-Serial port controlled light switch design/4-2Data reception for switching lights/Drivers/STM32F1xx_HAL_Driver/Inc",
+                "${workspaceFolder}/4-Serial port controlled light switch design/4-2Data reception for switching lights/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy",
+                "${workspaceFolder}/4-Serial port controlled light switch design/4-2Data reception for switching lights/Drivers/CMSIS/Device/ST/STM32F1xx/Include",
+                "${workspaceFolder}/4-Serial port controlled light switch design/4-2Data reception for switching lights/Drivers/CMSIS/Include"
+            ],
+            "defines": [
+                "USE_HAL_DRIVER",
+                "STM32F103xE",
+                "__CC_ARM",
+                "__ARMCC_VERSION=5060034"
+            ],
+            "cStandard": "c99",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-gcc-x64"
         }
     ],
     "version": 4

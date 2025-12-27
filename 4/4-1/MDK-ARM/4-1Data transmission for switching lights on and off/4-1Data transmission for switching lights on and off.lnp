@@ -1,0 +1,22 @@
+--cpu Cortex-M3
+"4-1data transmission for switching lights on and off\startup_stm32f103xe.o"
+"4-1data transmission for switching lights on and off\main.o"
+"4-1data transmission for switching lights on and off\stm32f1xx_it.o"
+"4-1data transmission for switching lights on and off\stm32f1xx_hal_msp.o"
+"4-1data transmission for switching lights on and off\stm32f1xx_hal_gpio_ex.o"
+"4-1data transmission for switching lights on and off\stm32f1xx_hal_uart.o"
+"4-1data transmission for switching lights on and off\stm32f1xx_hal.o"
+"4-1data transmission for switching lights on and off\stm32f1xx_hal_rcc.o"
+"4-1data transmission for switching lights on and off\stm32f1xx_hal_rcc_ex.o"
+"4-1data transmission for switching lights on and off\stm32f1xx_hal_gpio.o"
+"4-1data transmission for switching lights on and off\stm32f1xx_hal_dma.o"
+"4-1data transmission for switching lights on and off\stm32f1xx_hal_cortex.o"
+"4-1data transmission for switching lights on and off\stm32f1xx_hal_pwr.o"
+"4-1data transmission for switching lights on and off\stm32f1xx_hal_flash.o"
+"4-1data transmission for switching lights on and off\stm32f1xx_hal_flash_ex.o"
+"4-1data transmission for switching lights on and off\stm32f1xx_hal_exti.o"
+"4-1data transmission for switching lights on and off\system_stm32f1xx.o"
+--strict --scatter "4-1Data transmission for switching lights on and off\4-1Data transmission for switching lights on and off.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "4-1Data transmission for switching lights on and off.map" -o "4-1Data transmission for switching lights on and off\4-1Data transmission for switching lights on and off.axf"
