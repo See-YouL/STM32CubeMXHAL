@@ -137,6 +137,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    // // 串口单独发送测试成功
     // if (KEY1_PRES == KeyScan()) // 如果KEY1按下
     // {
     //     HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin); // 红灯状态取反
