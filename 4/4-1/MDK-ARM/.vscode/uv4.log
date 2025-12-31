@@ -1,4 +1,8 @@
-Load "4-1Data transmission for switching lights on and off\\4-1Data transmission for switching lights on and off.axf" 
-Internal DLL Error
-Error: Flash Download failed  -  Target DLL has been cancelled
-Flash Load finished at 20:11:24
+*** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Build target '4-1Data transmission for switching lights on and off'
+compiling main.c...
+linking...
+Program Size: Code=7904 RO-data=392 RW-data=32 ZI-data=1960  
+FromELF: creating hex file...
+"4-1Data transmission for switching lights on and off\4-1Data transmission for switching lights on and off.axf" - 0 Error(s), 0 Warning(s).
+Build Time Elapsed:  00:00:03

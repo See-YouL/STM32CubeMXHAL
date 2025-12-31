@@ -137,12 +137,13 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    // // 串口单独发送测试成功
+    // // 串口单独发送测试
     // if (KEY1_PRES == KeyScan()) // 如果KEY1按下
     // {
     //     HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin); // 红灯状态取反
     //     HAL_UART_Transmit(&huart1, uartBuf, 18, 0xFFFF); // 通过串口发送字符串
     // }
+    // 重映射printf函数测试
     if (KEY1_PRES == KeyScan()) // 如果KEY1按下
     {
         keyCnt++;
@@ -216,7 +217,7 @@ static void MX_USART1_UART_Init(void)
   huart1.Init.WordLength = UART_WORDLENGTH_8B;
   huart1.Init.StopBits = UART_STOPBITS_1;
   huart1.Init.Parity = UART_PARITY_NONE;
-  huart1.Init.Mode = UART_MODE_TX;
+  huart1.Init.Mode = UART_MODE_TX_RX;
   huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
   huart1.Init.OverSampling = UART_OVERSAMPLING_16;
   if (HAL_UART_Init(&huart1) != HAL_OK)
