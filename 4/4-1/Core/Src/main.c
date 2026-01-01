@@ -108,7 +108,6 @@ int main(void)
   /* USER CODE BEGIN 1 */
   unsigned char uartBuf[18] = "you pressed key1 !"; // 定义发送字符串
   unsigned char keyCnt = 0; // 串口发送计数器
-  unsigned char Uart1Temp[100]; // 定义接收缓存数组
 
   /* USER CODE END 1 */
 
