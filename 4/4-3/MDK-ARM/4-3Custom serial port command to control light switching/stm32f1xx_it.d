@@ -26,4 +26,6 @@
 4-3custom serial port command to control light switching\stm32f1xx_it.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
 4-3custom serial port command to control light switching\stm32f1xx_it.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 4-3custom serial port command to control light switching\stm32f1xx_it.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
+4-3custom serial port command to control light switching\stm32f1xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+4-3custom serial port command to control light switching\stm32f1xx_it.o: ../Core/Inc/UART.h
 4-3custom serial port command to control light switching\stm32f1xx_it.o: ../Core/Inc/stm32f1xx_it.h

@@ -31,12 +31,14 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "stdio.h" // 重映射printf函数
+#include "UART.h" // 引入 UART 头文件
 
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-
+extern UART_HandleTypeDef huart1; // 声明 UART1 句柄结构体变量
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/

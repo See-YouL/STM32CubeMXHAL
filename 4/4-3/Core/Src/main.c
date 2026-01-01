@@ -90,13 +90,23 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_UART_Receive_IT(&huart1, (uint8_t*)Uart1Temp, REC_LENGTH);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    if(Uart1ReceiveFlag) // 如果接收完成标志被置位
+    {
+        HAL_UART_Transmit(&huart1, Uart1ReceiveBuf, Uart1ReceiveCnt, 0xFFFF); // 通过串口发送接收到的数据
+        for(int i=0; i<Uart1ReceiveCnt; i++) // 清除接收缓存
+        {
+            Uart1ReceiveBuf[i] = 0;
+        }
+        Uart1ReceiveCnt = 0; // 重置接收计数器
+        Uart1ReceiveFlag = 0; // 清除接收完成标志
+    }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
