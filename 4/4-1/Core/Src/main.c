@@ -95,6 +95,7 @@ int fputc(int ch, FILE *f)
     HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF); // 通过串口发送数据
     return ch;
 }
+
 /* USER CODE END 0 */
 
 /**
@@ -106,7 +107,8 @@ int main(void)
 
   /* USER CODE BEGIN 1 */
   unsigned char uartBuf[18] = "you pressed key1 !"; // 定义发送字符串
-  unsigned char keyCnt = 0;
+  unsigned char keyCnt = 0; // 串口发送计数器
+  unsigned char Uart1Temp[100]; // 定义接收缓存数组
 
   /* USER CODE END 1 */
 
