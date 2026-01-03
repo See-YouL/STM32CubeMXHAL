@@ -1,20 +1,20 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2026 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2026 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -60,9 +60,9 @@ static void MX_USART1_UART_Init(void);
 /* USER CODE END 0 */
 
 /**
-  * @brief  The application entry point.
-  * @retval int
-  */
+ * @brief  The application entry point.
+ * @retval int
+ */
 int main(void)
 {
 
@@ -90,42 +90,109 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  HAL_UART_Receive_IT(&huart1, (uint8_t*)Uart1Temp, REC_LENGTH); // 启动UART1接收中断
+  HAL_UART_Receive_IT(&huart1, (uint8_t *)Uart1Temp, REC_LENGTH); // 启动UART1接收中断
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    if(Uart1ReceiveFlag) // 如果接收完成标志被置位
-    {
-        HAL_UART_Transmit(&huart1, Uart1ReceiveBuf, Uart1ReceiveCnt, 0xFFFF); // 通过串口发送接收到的数据
-        for(int i=0; i<Uart1ReceiveCnt; i++) // 清除接收缓存
-        {
-            Uart1ReceiveBuf[i] = 0;
-        }
-        Uart1ReceiveCnt = 0; // 重置接收计数器
-        Uart1ReceiveFlag = 0; // 清除接收完成标志
-    }
-    /* USER CODE END WHILE */
+    // // P106 串口应声虫
+    // if(Uart1ReceiveFlag) // 如果接收完成标志被置位
+    // {
+    //   HAL_UART_Transmit(&huart1, Uart1ReceiveBuf, Uart1ReceiveCnt, 0xFFFF); // 通过串口发送接收到的数据
+    //   for(int i=0; i<Uart1ReceiveCnt; i++) // 清除接收缓存
+    //   {
+    //       Uart1ReceiveBuf[i] = 0;
+    //   }
+    //   Uart1ReceiveCnt = 0; // 重置接收计数器
+    //   Uart1ReceiveFlag = 0; // 清除接收完成标志
+    // }
 
-    /* USER CODE BEGIN 3 */
+    // P108 通过串口控制LED
+    if (Uart1ReceiveFlag) // 如果接收完成标志被置位
+    {
+      HAL_UART_AbortReceive(&huart1); // 中止当前接收，防止数据冲突
+
+      printf("The received command is :\r\n");
+      HAL_UART_Transmit(&huart1, Uart1ReceiveBuf, Uart1ReceiveCnt, 0xFFFF); // 通过串口发送接收到的数据
+
+      if ((':' == Uart1ReceiveBuf[0]) && ('S' == Uart1ReceiveBuf[1]))       // 检验起始位':',地址位'S'表示stm32开发板
+      {
+        if ('L' == Uart1ReceiveBuf[2]) // 如果命令格式正确，且第三位为'L'，表示控制LED
+        {
+          // 红灯
+          if ('0' == Uart1ReceiveBuf[3]) // 如果第四位为'0'，表示熄灭红色LED
+          {
+            HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_R_Pin, GPIO_PIN_SET);
+          }
+          else if ('1' == Uart1ReceiveBuf[3]) // 如果第四位为'1'，表示点亮红色LED
+          {
+            HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_R_Pin, GPIO_PIN_RESET);
+          }
+          else if ('2' == Uart1ReceiveBuf[3]) // 如果第四位为'2'，表示切换红色LED状态
+          {
+            HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin);
+          }
+
+          // 蓝灯
+          if ('0' == Uart1ReceiveBuf[4]) // 如果第五位为'0'，表示熄灭蓝色LED
+          {
+            HAL_GPIO_WritePin(LED_B_GPIO_Port, LED_B_Pin, GPIO_PIN_SET);
+          }
+          else if ('1' == Uart1ReceiveBuf[4]) // 如果第五位为'1'，表示点亮蓝色LED
+          {
+            HAL_GPIO_WritePin(LED_B_GPIO_Port, LED_B_Pin, GPIO_PIN_RESET);
+          }
+          else if ('2' == Uart1ReceiveBuf[4]) // 如果第五位为'2'，表示切换蓝色LED状态
+          {
+            HAL_GPIO_TogglePin(LED_B_GPIO_Port, LED_B_Pin);
+          }
+
+          // 绿灯
+          if ('0' == Uart1ReceiveBuf[5]) // 如果第六位为'0'，表示熄灭绿色LED
+          {
+            HAL_GPIO_WritePin(LED_G_GPIO_Port, LED_G_Pin, GPIO_PIN_SET);
+          }
+          else if ('1' == Uart1ReceiveBuf[5]) // 如果第六位为'1'，表示点亮绿色LED
+          {
+            HAL_GPIO_WritePin(LED_G_GPIO_Port, LED_G_Pin, GPIO_PIN_RESET);
+          }
+          else if ('2' == Uart1ReceiveBuf[5]) // 如果第六位为'2'，表示切换绿色LED状态
+          {
+            HAL_GPIO_TogglePin(LED_G_GPIO_Port, LED_G_Pin);
+          }
+        }
+      }
+      for (int i = 0; i < Uart1ReceiveCnt; i++) // 清除接收缓存
+      {
+        Uart1ReceiveBuf[i] = 0;
+      }
+      Uart1ReceiveCnt = 0;  // 重置接收计数器
+      Uart1ReceiveFlag = 0; // 清除接收完成标志
+
+      HAL_UART_Receive_IT(&huart1, (uint8_t *)Uart1Temp, REC_LENGTH); // 重新启动UART1接收中断
+    }
   }
+
+  /* USER CODE END WHILE */
+
+  /* USER CODE BEGIN 3 */
   /* USER CODE END 3 */
 }
 
 /**
-  * @brief System Clock Configuration
-  * @retval None
-  */
+ * @brief System Clock Configuration
+ * @retval None
+ */
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
   /** Initializes the RCC Oscillators according to the specified parameters
-  * in the RCC_OscInitTypeDef structure.
-  */
+   * in the RCC_OscInitTypeDef structure.
+   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
@@ -139,9 +206,8 @@ void SystemClock_Config(void)
   }
 
   /** Initializes the CPU, AHB and APB buses clocks
-  */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+   */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
@@ -154,10 +220,10 @@ void SystemClock_Config(void)
 }
 
 /**
-  * @brief USART1 Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief USART1 Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_USART1_UART_Init(void)
 {
 
@@ -183,14 +249,13 @@ static void MX_USART1_UART_Init(void)
   /* USER CODE BEGIN USART1_Init 2 */
 
   /* USER CODE END USART1_Init 2 */
-
 }
 
 /**
-  * @brief GPIO Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief GPIO Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -204,7 +269,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, LED_G_Pin|LED_B_Pin|LED_R_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOB, LED_G_Pin | LED_B_Pin | LED_R_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin : KEY2_Pin */
   GPIO_InitStruct.Pin = KEY2_Pin;
@@ -219,7 +284,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(KEY1_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : LED_G_Pin LED_B_Pin LED_R_Pin */
-  GPIO_InitStruct.Pin = LED_G_Pin|LED_B_Pin|LED_R_Pin;
+  GPIO_InitStruct.Pin = LED_G_Pin | LED_B_Pin | LED_R_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
@@ -235,9 +300,9 @@ static void MX_GPIO_Init(void)
 /* USER CODE END 4 */
 
 /**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
+ * @brief  This function is executed in case of error occurrence.
+ * @retval None
+ */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
@@ -250,12 +315,12 @@ void Error_Handler(void)
 }
 #ifdef USE_FULL_ASSERT
 /**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
+ * @brief  Reports the name of the source file and the source line number
+ *         where the assert_param error has occurred.
+ * @param  file: pointer to the source file name
+ * @param  line: assert_param error line source number
+ * @retval None
+ */
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */

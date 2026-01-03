@@ -17,7 +17,7 @@
 "4-3custom serial port command to control light switching\stm32f1xx_hal_flash_ex.o"
 "4-3custom serial port command to control light switching\stm32f1xx_hal_exti.o"
 "4-3custom serial port command to control light switching\system_stm32f1xx.o"
---strict --scatter "4-3Custom serial port command to control light switching\4-3Custom serial port command to control light switching.sct"
+--library_type=microlib --strict --scatter "4-3Custom serial port command to control light switching\4-3Custom serial port command to control light switching.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "4-3Custom serial port command to control light switching.map" -o "4-3Custom serial port command to control light switching\4-3Custom serial port command to control light switching.axf"

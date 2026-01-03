@@ -84,6 +84,7 @@ unsigned char KeyScan(void)
     return 0; // 无按键按下
 }
 
+// 在Keil 魔术棒->Targets->C/C++选项卡中将"Use MicroLIB"选项勾选，否则printf无法使用
 /**
  * @brief 重定向c库函数printf到USART1
  * @param ch 需要发送的字符

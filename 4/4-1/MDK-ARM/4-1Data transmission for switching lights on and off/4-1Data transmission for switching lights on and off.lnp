@@ -16,7 +16,7 @@
 "4-1data transmission for switching lights on and off\stm32f1xx_hal_flash_ex.o"
 "4-1data transmission for switching lights on and off\stm32f1xx_hal_exti.o"
 "4-1data transmission for switching lights on and off\system_stm32f1xx.o"
---strict --scatter "4-1Data transmission for switching lights on and off\4-1Data transmission for switching lights on and off.sct"
+--library_type=microlib --strict --scatter "4-1Data transmission for switching lights on and off\4-1Data transmission for switching lights on and off.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "4-1Data transmission for switching lights on and off.map" -o "4-1Data transmission for switching lights on and off\4-1Data transmission for switching lights on and off.axf"
