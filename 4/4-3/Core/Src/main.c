@@ -90,7 +90,7 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  HAL_UART_Receive_IT(&huart1, (uint8_t*)Uart1Temp, REC_LENGTH);
+  HAL_UART_Receive_IT(&huart1, (uint8_t*)Uart1Temp, REC_LENGTH); // 启动UART1接收中断
   /* USER CODE END 2 */
 
   /* Infinite loop */
