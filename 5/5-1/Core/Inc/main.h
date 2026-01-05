@@ -36,6 +36,7 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
+extern TIM_HandleTypeDef htim3; // 方便在Timer.c中使用htim3
 
 /* USER CODE END ET */
 

@@ -3,6 +3,7 @@
 "5-1use a timer to set a 1-second interval.\main.o"
 "5-1use a timer to set a 1-second interval.\stm32f1xx_it.o"
 "5-1use a timer to set a 1-second interval.\stm32f1xx_hal_msp.o"
+"5-1use a timer to set a 1-second interval.\timer.o"
 "5-1use a timer to set a 1-second interval.\stm32f1xx_hal_gpio_ex.o"
 "5-1use a timer to set a 1-second interval.\stm32f1xx_hal_tim.o"
 "5-1use a timer to set a 1-second interval.\stm32f1xx_hal_tim_ex.o"
