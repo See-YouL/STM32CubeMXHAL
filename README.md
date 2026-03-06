@@ -84,5 +84,3 @@ HAL_UART_Receive_IT(&huart1, (uint8_t *)Uart1Temp, REC_LENGTH); // 启动UART1�
 HAL_UART_Receive_IT(&huart1, (uint8_t *)Uart1Temp, REC_LENGTH); // 启动UART1接收中断
 /* USER CODE END 2 */
 ```
-
-随便提交点东西，打卡
