@@ -37,6 +37,8 @@
 
 ----
 
+低电平点亮
+
 - LED_R PB5
 - LED_G PB0
 - LED_B PB1
@@ -46,6 +48,8 @@
 ![按键引脚配置](https://raw.githubusercontent.com/See-YouL/PicGoFhotos/master/20251216171317.png)
 
 ----
+
+按键按下为高电平
 
 - KEY1 PA0
 - KEY2 PC13

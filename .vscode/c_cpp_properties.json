@@ -199,6 +199,26 @@
             "cStandard": "c99",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-gcc-x64"
+        },
+        {
+            "name": "5-2 使用定时器实现状态机",
+            "includePath": [
+                "C:/Keil_v5/ARM/ARMCC/include",
+                "${workspaceFolder}/5/5-2/Core/Inc",
+                "${workspaceFolder}/5/5-2/Drivers/STM32F1xx_HAL_Driver/Inc",
+                "${workspaceFolder}/5/5-2/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy",
+                "${workspaceFolder}/5/5-2/Drivers/CMSIS/Device/ST/STM32F1xx/Include",
+                "${workspaceFolder}/5/5-2/Drivers/CMSIS/Include"
+            ],
+            "defines": [
+                "USE_HAL_DRIVER",
+                "STM32F103xE",
+                "__CC_ARM",
+                "__ARMCC_VERSION=5060034"
+            ],
+            "cStandard": "c99",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-gcc-x64"
         }
     ],
     "version": 4
