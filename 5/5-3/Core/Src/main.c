@@ -109,7 +109,8 @@ int main(void)
     if (SW_Flag) // 打印标志位
     {
       SW_Flag = 0; // 清除打印标志位
-      printf("Time : %02d : %02d : %02d \r\n", Clock.minute, Clock.second, Clock.ms100);    }
+      printf("Time : %02d : %02d : %02d \r\n", Clock.minute, Clock.second, Clock.ms100);    
+    }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

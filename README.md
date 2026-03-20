@@ -65,6 +65,8 @@
 
 ## 勘误
 
+书中存在很多不完整的地方以及配置上的省略**具体请参照本工程中的代码, 全部经过测试**
+
 ### P96 重定向fputc函数
 
 使用书中重定向fputc函数的方法时需要将Keil MDK的编译选项中的"Use MicroLIB"选项勾选。
@@ -87,4 +89,48 @@ HAL_UART_Receive_IT(&huart1, (uint8_t *)Uart1Temp, REC_LENGTH); // 启动UART1�
 /* USER CODE BEGIN 2 */
 HAL_UART_Receive_IT(&huart1, (uint8_t *)Uart1Temp, REC_LENGTH); // 启动UART1接收中断
 /* USER CODE END 2 */
+```
+
+### P133 秒表程序
+
+在 `Timer.h`中
+
+```c
+extern unsigned char SW_Statue; // 秒表状态
+extern unsigned char SW_Flag; // 秒表标志位, 1 : 打印时间
+
+```
+
+在 `Timer.c` 中
+
+```c
+extern TIM_HandleTypeDef htim1;
+
+SW_TypeDef Clock = {0}; // 秒表变量
+unsigned char SW_Flag = 0; // 打印标志位
+```
+
+在 `main.c` 中
+
+增加头文件引用
+
+```c
+/* USER CODE BEGIN Includes */
+#include "Timer.h" // 秒表
+#include <stdio.h> // printf重定向
+
+/* USER CODE END Includes */
+```
+
+增加 print 重定向
+
+```c
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
+int fputc(int ch, FILE *f) // print 重定向
+{
+    HAL_UART_Transmit(&huart1, (uint8_t*)&ch, 1, HAL_MAX_DELAY);
+    return ch;
+}
+/* USER CODE END 0 */
 ```
