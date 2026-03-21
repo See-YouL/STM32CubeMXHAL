@@ -4,6 +4,7 @@ extern TIM_HandleTypeDef htim1;
 
 SW_TypeDef Clock = {0}; // 秒表变量
 unsigned char SW_Flag = 0; // 打印标志位
+unsigned char SW_Statue = 0; // 秒表状态：0停止，1运行
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef * htim)
 {

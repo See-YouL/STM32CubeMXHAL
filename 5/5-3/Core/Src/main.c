@@ -21,8 +21,10 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "Timer.h" // 秒表
 #include <stdio.h> // printf重定向
+#include "Timer.h" // 秒表
+#include "Key.h"    // 按键
+
 
 /* USER CODE END Includes */
 
@@ -43,6 +45,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 TIM_HandleTypeDef htim1;
+
 UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
@@ -98,7 +101,9 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM1_Init();
   MX_USART1_UART_Init();
+  
   /* USER CODE BEGIN 2 */
+  printf("Press KEY1, start or stop the stopwatch \r\n"); // 按下 KEY1 暂停秒表
 
   /* USER CODE END 2 */
 
@@ -106,6 +111,25 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
+    Key_Scan(); // 扫描按键
+    if (Key1Flag)
+    {
+      Key1Flag = 0;
+      SW_Statue = !SW_Statue; // 状态取反
+      if (SW_Statue)
+      {
+        HAL_TIM_Base_Start_IT(&htim1);
+        printf("Start\r\n");
+      }
+      else
+      {
+        HAL_TIM_Base_Stop_IT(&htim1);
+        printf("Stop\r\n");
+      }
+    }
+
+    // 秒表(自走)
     if (SW_Flag) // 打印标志位
     {
       SW_Flag = 0; // 清除打印标志位
@@ -199,7 +223,7 @@ static void MX_TIM1_Init(void)
   }
   /* USER CODE BEGIN TIM1_Init 2 */
   __HAL_TIM_CLEAR_FLAG(&htim1, TIM_FLAG_UPDATE); // 清除中断标志位
-  HAL_TIM_Base_Start_IT(&htim1); // 开启TIM1中断
+  // HAL_TIM_Base_Start_IT(&htim1); // 开启TIM1中断
   /* USER CODE END TIM1_Init 2 */
 
 }
@@ -244,6 +268,7 @@ static void MX_USART1_UART_Init(void)
   */
 static void MX_GPIO_Init(void)
 {
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
   /* USER CODE BEGIN MX_GPIO_Init_1 */
 
   /* USER CODE END MX_GPIO_Init_1 */
@@ -251,6 +276,12 @@ static void MX_GPIO_Init(void)
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+
+  /*Configure GPIO pin : KEY1_Pin */
+  GPIO_InitStruct.Pin = KEY1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(KEY1_GPIO_Port, &GPIO_InitStruct);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
 

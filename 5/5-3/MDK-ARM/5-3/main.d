@@ -28,5 +28,6 @@
 5-3\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 5-3\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 5-3\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
-5-3\main.o: ../Core/Inc/Timer.h
 5-3\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+5-3\main.o: ../Core/Inc/Timer.h
+5-3\main.o: ../Core/Inc/Key.h
