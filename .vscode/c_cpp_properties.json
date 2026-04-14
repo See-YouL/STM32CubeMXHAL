@@ -299,6 +299,26 @@
             "cStandard": "c99",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-gcc-x64"
+        },
+        {
+            "name": "7-1 光照度的获取与分析",
+            "includePath": [
+                "C:/Keil_v5/ARM/ARMCC/include",
+                "${workspaceFolder}/7/7-1/Core/Inc",
+                "${workspaceFolder}/7/7-1/Drivers/STM32F1xx_HAL_Driver/Inc",
+                "${workspaceFolder}/7/7-1/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy",
+                "${workspaceFolder}/7/7-1/Drivers/CMSIS/Device/ST/STM32F1xx/Include",
+                "${workspaceFolder}/7/7-1/Drivers/CMSIS/Include"
+            ],
+            "defines": [
+                "USE_HAL_DRIVER",
+                "STM32F103xE",
+                "__CC_ARM",
+                "__ARMCC_VERSION=5060034"
+            ],
+            "cStandard": "c99",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-gcc-x64"
         }
     ],
     "version": 4
