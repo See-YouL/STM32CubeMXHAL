@@ -21,6 +21,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "Beep.h" // 添加蜂鸣器驱动头文件
+#include "Key.h"  // 添加按键驱动头文件
 
 /* USER CODE END Includes */
 
@@ -45,6 +47,7 @@ TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim4;
 
 /* USER CODE BEGIN PV */
+unsigned char BGM_State = 0; // 背景音乐状态变量
 
 /* USER CODE END PV */
 
@@ -96,6 +99,7 @@ int main(void)
   MX_TIM3_Init();
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
+   /* USER CODE END 2 */
 
   /* USER CODE END 2 */
 
@@ -103,6 +107,32 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    Key_Scan(); // 扫描按键状态
+
+    if (Key1Flag)
+    {
+      Key1Flag = 0; // 清除按键1的标志位
+      BGM_State ++; // 下一首背景音乐
+      if (BGM_State > 3) // 如果超过乐谱数量，则从头开始
+      {
+        BGM_State = 1; // 从第一首乐谱开始播放
+      }
+      char volumeLevel = 5; // 设置音量等级，范围0-10
+      switch (BGM_State)
+      {
+        case 1:
+          BGM_Play(volumeLevel, (Note_TypeDef *)TwoTigersNote); // 播放《两只老虎》
+          break;
+        case 2:
+          BGM_Play(volumeLevel, (Note_TypeDef *)PeppaPigNote); // 播放《小猪佩奇》 
+          break;
+        case 3:
+          BGM_Play(volumeLevel, (Note_TypeDef *)DouDiZhuNote); // 播放《斗地主》
+          break;
+        default:
+          break;
+      }
+    }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -217,7 +247,7 @@ static void MX_TIM1_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN TIM1_Init 2 */
-
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_4); // 启动定时器1的PWM功能
   /* USER CODE END TIM1_Init 2 */
   HAL_TIM_MspPostInit(&htim1);
 
@@ -263,6 +293,8 @@ static void MX_TIM3_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN TIM3_Init 2 */
+  __HAL_TIM_CLEAR_FLAG(&htim3, TIM_FLAG_UPDATE); // 清除定时器3的更新标志
+  HAL_TIM_Base_Start_IT(&htim3); // 启动定时器3的中断
 
   /* USER CODE END TIM3_Init 2 */
 

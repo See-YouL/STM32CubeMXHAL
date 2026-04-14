@@ -279,6 +279,26 @@
             "cStandard": "c99",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-gcc-x64"
+        },
+        {
+            "name": "6-3 实现电子音乐播放器",
+            "includePath": [
+                "C:/Keil_v5/ARM/ARMCC/include",
+                "${workspaceFolder}/6/6-3/Core/Inc",
+                "${workspaceFolder}/6/6-3/Drivers/STM32F1xx_HAL_Driver/Inc",
+                "${workspaceFolder}/6/6-3/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy",
+                "${workspaceFolder}/6/6-3/Drivers/CMSIS/Device/ST/STM32F1xx/Include",
+                "${workspaceFolder}/6/6-3/Drivers/CMSIS/Include"
+            ],
+            "defines": [
+                "USE_HAL_DRIVER",
+                "STM32F103xE",
+                "__CC_ARM",
+                "__ARMCC_VERSION=5060034"
+            ],
+            "cStandard": "c99",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-gcc-x64"
         }
     ],
     "version": 4
