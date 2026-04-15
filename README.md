@@ -85,7 +85,7 @@
 
 ### RS485引脚
 
-![RS485 接线图](Pic\image.png)
+![RS485 接线图](Pic/image.png)
 
 使用 PC2 作为控制引脚，同时连接 RS485 的 Pin2 和 Pin3 引脚
 
