@@ -208,6 +208,8 @@ static void MX_ADC1_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN ADC1_Init 2 */
+  HAL_ADCEx_Calibration_Start(&hadc1); // 启动 ADC 校准
+  HAL_ADC_Start_IT(&hadc1); // 启动 ADC 转换并开启中断
 
   /* USER CODE END ADC1_Init 2 */
 
@@ -405,6 +407,7 @@ static void MX_USART1_UART_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN USART1_Init 2 */
+  HAL_UART_Receive_IT(&huart1, Uart1Temp, REC_LENGTH);
 
   /* USER CODE END USART1_Init 2 */
 

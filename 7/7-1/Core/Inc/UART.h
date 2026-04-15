@@ -11,6 +11,11 @@ extern "C" {
 #define REC_LENGTH 1
 #define MAX_REC_LENGTH 1024
 
+extern unsigned char Uart1ReceiveBuf[MAX_REC_LENGTH]; // UART1 接收缓冲区
+extern unsigned char Uart1ReceiveFlag; // UART1 接收完成标志
+extern unsigned char Uart1ReceiveCnt; // UART1 已接收字节数
+extern unsigned char Uart1Temp[REC_LENGTH]; // UART1 临时接收缓冲区
+
 
 #ifdef __cplusplus
 }
