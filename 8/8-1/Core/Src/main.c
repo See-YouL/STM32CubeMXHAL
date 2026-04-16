@@ -107,6 +107,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
+  uint8_t tempBuf[5] = {0, 1, 2, 3, 4}; // 示例数据，可以根据实际需要修改
 
   /* USER CODE END 2 */
 
@@ -114,6 +115,13 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    Key_Scan(); // 扫描按键状态，更新 Key1Flag
+    if (Key1Flag)
+    {
+      RS485_Send(tempBuf, 5); // 通过 RS485 发送数据
+      Key1Flag = 0; // 重置按键标志位
+    }
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

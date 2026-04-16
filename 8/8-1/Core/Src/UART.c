@@ -47,3 +47,16 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
     HAL_UART_Receive_IT(&huart1, Uart1Temp, REC_LENGTH); // 继续接收下一个字节
   }
 }
+
+/**
+ * @brief 通过 RS485 发送数据
+ * @param pData 要发送的数据指针
+ * @param Size 要发送的数据长度
+ * @note 该函数首先设置 RS485 发送模式，然后通过 UART1 发送数据，最后设置 RS485 接收模式以准备接收数据。
+ * @return 无返回值
+ */
+void RS485_Send(uint8_t *pData, uint16_t Size) {
+  SET_RS485_SEND; // 设置 RS485 发送模式
+  HAL_UART_Transmit(&huart1, pData, Size, HAL_MAX_DELAY); // 通过 UART1 发送数据
+  SET_RS485_RECEIVE; // 设置 RS485 接收模式
+}
