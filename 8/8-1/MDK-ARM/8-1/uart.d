@@ -35,3 +35,5 @@
 8-1\uart.o: ../Core/Inc/UART.h
 8-1\uart.o: ../Core/Inc/Key.h
 8-1\uart.o: ../Core/Inc/main.h
+8-1\uart.o: ../Core/Inc/LED.h
+8-1\uart.o: ../Core/Inc/Timer.h

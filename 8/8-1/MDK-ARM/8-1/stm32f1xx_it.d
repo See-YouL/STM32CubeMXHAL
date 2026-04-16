@@ -34,4 +34,6 @@
 8-1\stm32f1xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 8-1\stm32f1xx_it.o: ../Core/Inc/main.h
 8-1\stm32f1xx_it.o: ../Core/Inc/Key.h
+8-1\stm32f1xx_it.o: ../Core/Inc/LED.h
+8-1\stm32f1xx_it.o: ../Core/Inc/Timer.h
 8-1\stm32f1xx_it.o: ../Core/Inc/stm32f1xx_it.h

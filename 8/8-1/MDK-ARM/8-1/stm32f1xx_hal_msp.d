@@ -34,3 +34,5 @@
 8-1\stm32f1xx_hal_msp.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 8-1\stm32f1xx_hal_msp.o: ../Core/Inc/main.h
 8-1\stm32f1xx_hal_msp.o: ../Core/Inc/Key.h
+8-1\stm32f1xx_hal_msp.o: ../Core/Inc/LED.h
+8-1\stm32f1xx_hal_msp.o: ../Core/Inc/Timer.h

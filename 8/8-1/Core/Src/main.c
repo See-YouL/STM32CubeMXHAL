@@ -2,7 +2,7 @@
 /**
   ******************************************************************************
   * @file           : main.c
-  * @brief          : Main program body
+  * @brief          : 使用定时器截断数据定现应声虫程序(以Hex格式发送ASCII数据)
   ******************************************************************************
   * @attention
   *
@@ -107,7 +107,8 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-  uint8_t tempBuf[5] = {0, 1, 2, 3, 4}; // 示例数据，可以根据实际需要修改
+  // uint8_t tempBuf[5] = {0, 1, 2, 3, 4}; // 示例数据，可以根据实际需要修改
+  HAL_UART_Receive_IT(&huart1, Uart1Temp, REC_LENGTH); // 启动 UART 接收中断，准备接收数据
 
   /* USER CODE END 2 */
 
@@ -115,11 +116,11 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    Key_Scan(); // 扫描按键状态，更新 Key1Flag
-    if (Key1Flag)
+    if (Uart1ReceiveFlag) // 如果 UART 接收完成标志被设置
     {
-      RS485_Send(tempBuf, 5); // 通过 RS485 发送数据
-      Key1Flag = 0; // 重置按键标志位
+      RS485_Send(Uart1ReceiveBuf, Uart1ReceiveCnt); // 通过 RS485 发送接收到的数据
+      Uart1ReceiveCnt = 0; // 重置接收计数器
+      Uart1ReceiveFlag = 0; // 重置接收完成标志
     }
 
     /* USER CODE END WHILE */

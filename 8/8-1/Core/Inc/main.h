@@ -33,6 +33,8 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 #include "UART.h" // 包含 UART 相关的头文件，提供 UART 功能的声明和定义
 #include "Key.h" // 包含 Key 相关的头文件，提供按键功能的声明和定义
+#include "LED.h" // 包含 LED 相关的头文件，提供 LED 功能的声明和定义
+#include "Timer.h" // 包含 Timer 相关的头文件，提供定时器功能的声明和定义
 
 /* USER CODE END Includes */
 

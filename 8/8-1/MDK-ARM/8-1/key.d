@@ -35,3 +35,5 @@
 8-1\key.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 8-1\key.o: ../Core/Inc/main.h
 8-1\key.o: ../Core/Inc/Key.h
+8-1\key.o: ../Core/Inc/LED.h
+8-1\key.o: ../Core/Inc/Timer.h

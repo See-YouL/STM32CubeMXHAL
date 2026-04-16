@@ -63,10 +63,11 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
     __HAL_TIM_SET_COUNTER(&htim2, 0); // 重置定时器计数器
     if (0 == Uart1ReceiveCnt) // 如果是接收的第一个字节，启动定时器中断
     {
-      __HAL_TIMCLEAR_FLAG(&htim2, TIM_FLAG_UPDATE); // 清除定时器更新中断标志
+      __HAL_TIM_CLEAR_FLAG(&htim2, TIM_FLAG_UPDATE); // 清除定时器更新中断标志
       HAL_TIM_Base_Start_IT(&htim2); // 启动定时器中断
     }
-    Uart1ReceiveBuf[Uart1ReceiveCnt++] = Uart1Temp[0]; // 将接收到的字节存入缓冲区并更新计数
+    Uart1ReceiveBuf[Uart1ReceiveCnt] = Uart1Temp[0]; // 将接收到的字节存入缓冲区并更新计数
+    Uart1ReceiveCnt++; // 下标递增
     HAL_UART_Receive_IT(&huart1, (uint8_t *)Uart1Temp, REC_LENGTH); // 重新打开 UART 接收中断以接收下一个字节
   }
 }
