@@ -2,7 +2,7 @@
 /**
   ******************************************************************************
   * @file           : main.c
-  * @brief          : Main program body
+  * @brief          : 实现多通道ADC数据的DMA搬运，并通过UART打印结果。
   ******************************************************************************
   * @attention
   *
@@ -107,13 +107,21 @@ int main(void)
   MX_ADC1_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_ADCEx_Calibration_Start(&hadc1); // 启动 ADC 校准
+  HAL_ADC_Start_DMA(&hadc1, (uint32_t*)AD_Buf, ADC_CHANNEL_CNT); // 启动 ADC DMA 传输，将转换结果存储到 AD_Buf 数组中，长度为 ADC_CHANNEL_CNT
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    HAL_Delay(1000); // 延时 1 秒
+    for (int i = 0; i < ADC_CHANNEL_CNT; i++) // 遍历 ADC 转换结果数组
+    {
+      printf("ADC Channel %d value: %d\r\n", i + 2, AD_Buf[i]); // 打印每个通道的 ADC 值
+    }
+    printf("DMA 搬运次数: %d\r\n", DMA_CNT); // 打印 DMA 传输完成次数
+    DMA_CNT = 0; // 重置 DMA 传输完成计数器
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

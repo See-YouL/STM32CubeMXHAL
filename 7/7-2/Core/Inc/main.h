@@ -31,6 +31,9 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdio.h> // 包含标准输入输出头文件，提供 printf 函数的声明
+#include "ADC.h" // 包含 ADC 模块的头文件，提供 ADC 相关函数和定义
+#include "UART.h" // 包含 UART 模块的头文件，提供 UART 相关函数和定义
 
 /* USER CODE END Includes */
 
