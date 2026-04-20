@@ -2,7 +2,7 @@
 /**
   ******************************************************************************
   * @file           : main.c
-  * @brief          : Main program body
+  * @brief          : 实现按下Key1后通过多路ADC采集并计算平均值，最后通过UART打印结果的功能
   ******************************************************************************
   * @attention
   *
@@ -107,6 +107,7 @@ int main(void)
   MX_ADC1_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+  HAL_ADCEx_Calibration_Start(&hadc1); // 启动 ADC 校准
 
   /* USER CODE END 2 */
 
@@ -114,6 +115,26 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    Key_Scan(); // 扫描按键状态
+    if (Key1Flag == 1) // 如果按键1被按下
+    {
+      Key1Flag = 0; // 清除按键1的标志位
+      HAL_ADC_Start_DMA(&hadc1, (uint32_t *)AD_Buf, ADC_DMA_BUF_LEN); // 启动 ADC1 的 DMA 传输，将转换结果存储到 AD_Buf 中，长度为 ADC_DMA_BUF_LEN
+    }
+
+    if (DMA_Flag == 1) // 如果 DMA 传输完成
+    {
+      DMA_Flag = 0; // 清除 DMA 传输完成标志
+      for (int i = 0; i < ADC_CHANNEL_CNT; i++)
+      {
+        printf("ADC1 Channel %d Value: %d\r\n", i + 2, ADC1_AVG_Buf[i]); // 打印 ADC1 各通道的平均值，通道编号从 2 开始
+      }
+      uint32_t PhotoResister = (uint32_t)(10240000 / (1.1 * ADC1_AVG_Buf[4]) - 2500); // 计算光敏电阻的阻值，假设使用 10kΩ 的电阻分压，电源电压为 3.3V，ADC 分辨率为 12 位
+      printf("Photoresistor ADC Value: %d\r\n", ADC1_AVG_Buf[4]); // 打印光敏电阻对应的 ADC 值，假设光敏电阻连接在 ADC1 的第 5 个通道（即 ADC_CHANNEL_6）
+      printf("Photoresistor Resistance: %d Ohms\r\n", PhotoResister); // 打印光敏电阻的阻值，单位为欧姆
+      printf("The DMA count is: %d\r\n", DMA_CNT); // 打印 DMA 传输完成的次数
+
+    }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

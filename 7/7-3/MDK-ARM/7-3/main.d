@@ -30,3 +30,8 @@
 7-3\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 7-3\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 7-3\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
+7-3\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+7-3\main.o: ../Core/Inc/ADC.h
+7-3\main.o: ../Core/Inc/main.h
+7-3\main.o: ../Core/Inc/UART.h
+7-3\main.o: ../Core/Inc/Key.h
