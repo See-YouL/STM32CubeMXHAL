@@ -31,6 +31,9 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "ADC.h" // 包含 ADC 模块的头文件，提供 ADC 相关的函数和变量声明
+#include "Key.h" // 包含 Key 模块的头文件，提供按键相关的函数和变量声明
+#include "UART.h" // 包含 UART 模块的头文件，提供 UART 相关的函数和变量声明
 
 /* USER CODE END Includes */
 
