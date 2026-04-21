@@ -361,6 +361,26 @@
             "intelliSenseMode": "windows-gcc-x64"
         },
         {
+            "name": "7-4 实现将光敏电阻阻值转换为光照度",
+            "includePath": [
+                "C:/Keil_v5/ARM/ARMCC/include",
+                "${workspaceFolder}/7/7-4/Core/Inc",
+                "${workspaceFolder}/7/7-4/Drivers/STM32F1xx_HAL_Driver/Inc",
+                "${workspaceFolder}/7/7-4/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy",
+                "${workspaceFolder}/7/7-4/Drivers/CMSIS/Device/ST/STM32F1xx/Include",
+                "${workspaceFolder}/7/7-4/Drivers/CMSIS/Include"
+            ],
+            "defines": [
+                "USE_HAL_DRIVER",
+                "STM32F103xE",
+                "__CC_ARM",
+                "__ARMCC_VERSION=5060034"
+            ],
+            "cStandard": "c99",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-gcc-x64"
+        },
+        {
             "name": "8-1 使用定时器截断串口数据",
             "includePath": [
                 "C:/Keil_v5/ARM/ARMCC/include",
