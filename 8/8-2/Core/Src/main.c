@@ -110,6 +110,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
+  uint8_t photoResBuf[9] = {0x01, 0x03, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}; // 定义一个数组来存储要发送的光敏电阻数据，包含 Modbus RTU 协议的帧头、功能码、数据地址、数据长度和占位符  
 
   /* USER CODE END 2 */
 
@@ -117,6 +118,66 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    Key_Scan(); // 扫描按键状态，更新按键标志位
+    if (1 == Key1Flag) // 如果按键1被按下
+    {
+      Key1Flag = 0; // 重置按键1标志位
+      HAL_ADC_Start_DMA(&hadc1, (uint32_t *)AD_Buf, ADC_DMA_BUF_LEN); // 启动 ADC 转换并使用 DMA 将结果存储到 AD_Buf 中
+    }
+
+    if (1 == DMA_Flag)
+    {
+      unsigned short lux = 0; // 定义一个变量来存储计算得到的光照强度值
+      unsigned short crcTemp = 0; // 定义一个变量来存储 CRC 校验值
+      uint32_t PhotoResistor = (uint32_t)(10240000 / (1.1 * ADC1_AVG_Buf[4]) -2500); // 根据 ADC1 的第5个通道的平均值计算光敏电阻的阻值，单位为欧姆
+      lux = GetLux(PhotoResistor); // 根据光敏电阻的阻值计算光照强度，单位为勒克斯
+      photoResBuf[5] = lux >> 8; // 将光照强度的高字节存储到发送缓冲区的第6个位置
+      photoResBuf[6] = lux & 0xFF; // 将光照强度的低字节存储到发送缓冲区的第7个位置
+      crcTemp = CRC_Compute(photoResBuf, 7); // 计算发送缓冲区前7个字节的 CRC 校验值，使用 Modbus RTU 协议的 CRC16 算法
+      photoResBuf[7] = crcTemp & 0xFF; // 将 CRC 校验值的低字节存储到发送缓冲区的第8个位置
+      photoResBuf[8] = crcTemp >> 8; // 将 CRC 校验值的高字节存储到发送缓冲区的第9个位置
+      RS485_Send(photoResBuf, 9); // 通过 RS485 接口发送整个缓冲区的数据，长度为9字节
+      DMA_Flag = 0; // 重置 DMA 传输完成标志
+    }
+    if(Uart1ReceiveFlag)
+    {
+      if(BROADCAST == Uart1ReceiveBuf[0])//广播
+      {
+        //CRC校验
+        unsigned short crctemp = CRC_Compute(Uart1ReceiveBuf,Uart1ReceiveCnt-2);
+        if((Uart1ReceiveBuf[Uart1ReceiveCnt-2]<<8 | Uart1ReceiveBuf[Uart1ReceiveCnt-1]) == crctemp)
+        {
+          //写引脚 功能码06 引脚地址默认05
+          if((0x06 == Uart1ReceiveBuf[1])&&(0x05 == Uart1ReceiveBuf[3]))
+          {
+            LED_RED = Uart1ReceiveBuf[5];
+          }
+        }
+      }
+      else if(PHOTO_RES == Uart1ReceiveBuf[0])
+      {
+        //CRC校验
+        unsigned short crctemp = CRC_Compute(Uart1ReceiveBuf,Uart1ReceiveCnt-2);
+        if((Uart1ReceiveBuf[Uart1ReceiveCnt-2]<<8 | Uart1ReceiveBuf[Uart1ReceiveCnt-1]) == crctemp)
+        {
+          //写引脚 功能码06 引脚地址默认05
+          if((0x06 == Uart1ReceiveBuf[1])&&(0x05 == Uart1ReceiveBuf[3]))
+          {
+            LED_RED = Uart1ReceiveBuf[5];
+            //单播数据需要返回
+            RS485_Send(Uart1ReceiveBuf,Uart1ReceiveCnt);
+          }
+          //读光照度 功能码03 光照度默认地址01 4字节
+          if((0x03 == Uart1ReceiveBuf[1])&&(0x01 == Uart1ReceiveBuf[3]))
+          {
+            //开启ADC1的DMA通道
+            HAL_ADC_Start_DMA(&hadc1,(uint32_t *)AD_Buf,ADC_DMA_BUF_LEN);  
+          }
+        }
+      }
+      Uart1ReceiveCnt = 0;
+      Uart1ReceiveFlag = 0;
+    }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -257,7 +318,7 @@ static void MX_ADC1_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN ADC1_Init 2 */
-
+  HAL_ADCEx_Calibration_Start(&hadc1); // 启动 ADC1 校准
   /* USER CODE END ADC1_Init 2 */
 
 }
@@ -279,7 +340,7 @@ static void MX_TIM1_Init(void)
   TIM_OC_InitTypeDef sConfigOC = {0};
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
 
-  /* USER CODE BEGIN TIM1_Init 1 */
+
 
   /* USER CODE END TIM1_Init 1 */
   htim1.Instance = TIM1;
@@ -500,6 +561,7 @@ static void MX_USART1_UART_Init(void)
   }
   /* USER CODE BEGIN USART1_Init 2 */
 
+  HAL_UART_Receive_IT(&huart1, Uart1Temp, REC_LENGTH); // 启动 UART 接收中断，准备接收数据
   /* USER CODE END USART1_Init 2 */
 
 }
