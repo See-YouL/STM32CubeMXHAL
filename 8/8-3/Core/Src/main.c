@@ -110,7 +110,9 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-  uint8_t photoResBuf[9] = {0x01, 0x03, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}; // 定义一个数组来存储要发送的光敏电阻数据，包含 Modbus RTU 协议的帧头、功能码、数据地址、数据长度和占位符  
+  uint8_t photoResBuf[9] = {0x01, 0x03, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}; // 定义一个数组来存储要发送的光敏电阻数据，包含 Modbus RTU 协议的帧头、功能码、数据地址、数据长度和占位符
+  uint8_t TempHumiBuf[9] = {0x02,0x03,0x04,0x00,0x00,0x00,0x00,0x00,0X00};  //温湿度发送数组
+
   DHT11_Data_TypeDef DHT11_Data; // 定义一个结构体变量来存储从 DHT11 传感器读取到的数据，包括湿度和温度的整数部分、小数部分以及校验和
   DHT11_ReadData(&DHT11_Data); // 从 DHT11 传感器读取数据，存储到 DHT11_Data 结构体中
 
@@ -195,6 +197,38 @@ int main(void)
           }
         }
       }
+      else if (TEMP_HUMI == Uart1ReceiveBuf[0]) // 如果接收到的数据的第一个字节是温湿度命令，处理温湿度数据请求
+      {
+         //CRC校验
+        unsigned short crctemp = CRC_Compute(Uart1ReceiveBuf,Uart1ReceiveCnt-2);
+        if((Uart1ReceiveBuf[Uart1ReceiveCnt-1]<<8 | Uart1ReceiveBuf[Uart1ReceiveCnt-2]) == crctemp)
+        {
+          //写引脚 功能码06 引脚地址默认05
+          if((0x06 == Uart1ReceiveBuf[1])&&(0x05 == Uart1ReceiveBuf[3]))
+          {
+            LED_RED = Uart1ReceiveBuf[5];
+            //单播数据需要返回
+            RS485_Send(Uart1ReceiveBuf,Uart1ReceiveCnt);
+          }
+          //读温湿 功能码03 温湿度默认地址01 4字节
+          if((0x03 == Uart1ReceiveBuf[1])&&(0x01 == Uart1ReceiveBuf[3]))
+          {
+            DHT11_ReadData(&DHT11_Data);   //读取温湿度，用时约70ms
+            TempHumiBuf[3] = DHT11_Data.humi_int;
+            TempHumiBuf[4] = DHT11_Data.humi_deci;
+            TempHumiBuf[5] = DHT11_Data.temp_int;
+            TempHumiBuf[6] = DHT11_Data.temp_deci;
+            
+            unsigned short crcTemp = 0;  //crc校验临时变量
+            crcTemp = CRC_Compute(TempHumiBuf,7);
+            //CRC校验2字节，注意低位在前
+            TempHumiBuf[7] = crcTemp&0xff;
+            TempHumiBuf[8] = crcTemp>>8;
+            //通过485发送传感器数据
+            RS485_Send(TempHumiBuf,9);
+          }
+      }
+    }
       Uart1ReceiveCnt = 0;
       Uart1ReceiveFlag = 0;
     }
