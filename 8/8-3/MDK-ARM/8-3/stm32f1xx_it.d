@@ -37,4 +37,5 @@
 8-3\stm32f1xx_it.o: ../Core/Inc/UART.h
 8-3\stm32f1xx_it.o: ../Core/Inc/LED.h
 8-3\stm32f1xx_it.o: ../Core/Inc/Timer.h
+8-3\stm32f1xx_it.o: ../Core/Inc/DHT11.h
 8-3\stm32f1xx_it.o: ../Core/Inc/stm32f1xx_it.h

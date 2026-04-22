@@ -37,6 +37,7 @@ extern "C" {
 #include "UART.h" // 包含 UART 模块的头文件
 #include "LED.h" // 包含 LED 控制模块的头文件
 #include "Timer.h" // 包含定时器模块的头文件
+#include "DHT11.h" // 包含 DHT11 传感器模块的头文件
 
 /* USER CODE END Includes */
 

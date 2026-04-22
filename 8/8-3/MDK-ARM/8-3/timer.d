@@ -38,3 +38,4 @@
 8-3\timer.o: ../Core/Inc/UART.h
 8-3\timer.o: ../Core/Inc/LED.h
 8-3\timer.o: ../Core/Inc/Timer.h
+8-3\timer.o: ../Core/Inc/DHT11.h

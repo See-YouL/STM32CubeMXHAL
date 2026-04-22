@@ -430,6 +430,11 @@
               <FileType>1</FileType>
               <FilePath>..\Core\Src\UART.c</FilePath>
             </File>
+            <File>
+              <FileName>DHT11.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\DHT11.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

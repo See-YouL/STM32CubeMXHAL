@@ -111,6 +111,8 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   uint8_t photoResBuf[9] = {0x01, 0x03, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}; // 定义一个数组来存储要发送的光敏电阻数据，包含 Modbus RTU 协议的帧头、功能码、数据地址、数据长度和占位符  
+  DHT11_Data_TypeDef DHT11_Data; // 定义一个结构体变量来存储从 DHT11 传感器读取到的数据，包括湿度和温度的整数部分、小数部分以及校验和
+  DHT11_ReadData(&DHT11_Data); // 从 DHT11 传感器读取数据，存储到 DHT11_Data 结构体中
 
   /* USER CODE END 2 */
 
@@ -120,11 +122,24 @@ int main(void)
   {
     Key_Scan(); // 扫描按键状态，更新按键标志位
 
-    // 如果按键1被按下，启动 ADC 转换并使用 DMA 将结果存储到 AD_Buf 中
     if (1 == Key1Flag) // 如果按键1被按下
     {
-      Key1Flag = 0; // 重置按键1标志位
-      HAL_ADC_Start_DMA(&hadc1, (uint32_t *)AD_Buf, ADC_DMA_BUF_LEN); // 启动 ADC 转换并使用 DMA 将结果存储到 AD_Buf 中
+      LED_RED_ON; // 点亮红灯
+      unsigned temp = DHT11_ReadData(&DHT11_Data); // 从 DHT11 传感器读取数据，存储到 DHT11_Data 结构体中
+      if (DHT11_OK == temp) // 如果读取成功
+      {
+        printf("Humidity: %d.%d%%, Temperature: %d.%dC\r\n", DHT11_Data.humi_int, DHT11_Data.humi_deci, DHT11_Data.temp_int, DHT11_Data.temp_deci); // 打印读取到的湿度和温度数据
+      }
+      else if (DHT11_ERR == temp) // 如果读取失败
+      {
+        printf("DHT11 read error.\r\n"); // 打印错误信息
+      }
+      else if (DHT11_BUSY == temp) // 如果 DHT11 正在忙碌中
+      {
+        printf("DHT11 is busy.\r\n"); // 打印忙碌信息
+      }
+      LED_RED_OFF; // 熄灭红灯
+      Key1Flag = 0; // 重置按键1的标志位
     }
 
     // 如果 DMA 传输完成，处理 ADC 转换结果并通过 RS485 发送光照强度数据

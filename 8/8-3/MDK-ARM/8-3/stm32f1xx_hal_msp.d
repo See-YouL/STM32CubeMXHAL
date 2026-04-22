@@ -37,3 +37,4 @@
 8-3\stm32f1xx_hal_msp.o: ../Core/Inc/UART.h
 8-3\stm32f1xx_hal_msp.o: ../Core/Inc/LED.h
 8-3\stm32f1xx_hal_msp.o: ../Core/Inc/Timer.h
+8-3\stm32f1xx_hal_msp.o: ../Core/Inc/DHT11.h
