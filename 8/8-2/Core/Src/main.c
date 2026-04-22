@@ -119,13 +119,16 @@ int main(void)
   while (1)
   {
     Key_Scan(); // 扫描按键状态，更新按键标志位
+
+    // 如果按键1被按下，启动 ADC 转换并使用 DMA 将结果存储到 AD_Buf 中
     if (1 == Key1Flag) // 如果按键1被按下
     {
       Key1Flag = 0; // 重置按键1标志位
       HAL_ADC_Start_DMA(&hadc1, (uint32_t *)AD_Buf, ADC_DMA_BUF_LEN); // 启动 ADC 转换并使用 DMA 将结果存储到 AD_Buf 中
     }
 
-    if (1 == DMA_Flag)
+    // 如果 DMA 传输完成，处理 ADC 转换结果并通过 RS485 发送光照强度数据
+    if (1 == DMA_Flag) // 如果 DMA 传输完成
     {
       unsigned short lux = 0; // 定义一个变量来存储计算得到的光照强度值
       unsigned short crcTemp = 0; // 定义一个变量来存储 CRC 校验值
@@ -139,13 +142,15 @@ int main(void)
       RS485_Send(photoResBuf, 9); // 通过 RS485 接口发送整个缓冲区的数据，长度为9字节
       DMA_Flag = 0; // 重置 DMA 传输完成标志
     }
+
+    // 如果接收到 UART 数据并且接收完成标志被设置，处理接收到的数据
     if(Uart1ReceiveFlag)
     {
-      if(BROADCAST == Uart1ReceiveBuf[0])//广播
+      if(BROADCAST == Uart1ReceiveBuf[0]) // 如果接收到的数据的第一个字节是广播地址，处理广播命令
       {
-        //CRC校验
-        unsigned short crctemp = CRC_Compute(Uart1ReceiveBuf,Uart1ReceiveCnt-2);
-        if((Uart1ReceiveBuf[Uart1ReceiveCnt-2]<<8 | Uart1ReceiveBuf[Uart1ReceiveCnt-1]) == crctemp)
+        // 进行 CRC 校验
+        unsigned short crctemp = CRC_Compute(Uart1ReceiveBuf,Uart1ReceiveCnt - 2);
+        if((Uart1ReceiveBuf[Uart1ReceiveCnt - 1] << 8 | Uart1ReceiveBuf[Uart1ReceiveCnt - 1]) == crctemp)
         {
           //写引脚 功能码06 引脚地址默认05
           if((0x06 == Uart1ReceiveBuf[1])&&(0x05 == Uart1ReceiveBuf[3]))
@@ -157,8 +162,8 @@ int main(void)
       else if(PHOTO_RES == Uart1ReceiveBuf[0])
       {
         //CRC校验
-        unsigned short crctemp = CRC_Compute(Uart1ReceiveBuf,Uart1ReceiveCnt-2);
-        if((Uart1ReceiveBuf[Uart1ReceiveCnt-2]<<8 | Uart1ReceiveBuf[Uart1ReceiveCnt-1]) == crctemp)
+        unsigned short crctemp = CRC_Compute(Uart1ReceiveBuf,Uart1ReceiveCnt - 2);
+        if((Uart1ReceiveBuf[Uart1ReceiveCnt - 1] << 8 | Uart1ReceiveBuf[Uart1ReceiveCnt - 2]) == crctemp)
         {
           //写引脚 功能码06 引脚地址默认05
           if((0x06 == Uart1ReceiveBuf[1])&&(0x05 == Uart1ReceiveBuf[3]))
